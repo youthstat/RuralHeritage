@@ -197,7 +197,7 @@
   table.country-t tbody tr:hover{background:var(--linen);}
   table.country-t td.num{font-family:'JetBrains Mono',monospace; color:var(--brick);}
 
-  /* ===== SURVEY (ПОВНІСТЮ ПЕРЕРОБЛЕНИЙ ДИЗАЙН) ===== */
+  /* ===== SURVEY SECTION (ПЕРЕРОБЛЕНА) ===== */
   .survey-shell{display:grid; grid-template-columns:0.85fr 1.15fr; gap:32px;}
   @media (max-width:700px){ .survey-shell{grid-template-columns:1fr;} }
   .survey-note h3{font-size:19px; margin-bottom:12px;}
@@ -218,16 +218,18 @@
     width:100%; padding:10px 11px; background:var(--canvas); 
     border:1px solid var(--line-dark); color:var(--paper-ink); 
     font-family:'Space Grotesk',sans-serif; font-size:13.5px; border-radius:8px;
-    transition:border-color .2s, box-shadow .2s;
+    transition:border-color 0.2s, box-shadow 0.2s;
   }
   select:hover, input[type=range]:hover{border-color:var(--gold);}
-  select:focus, input[type=range]:focus{outline:2px solid var(--gold); outline-offset:2px; border-color:var(--gold); box-shadow:0 0 0 3px rgba(204,154,52,0.2);}
-  
+  select:focus, input[type=range]:focus{
+    outline:2px solid var(--gold); outline-offset:2px; 
+    border-color:var(--gold); box-shadow:0 0 0 3px rgba(204,154,52,0.2);
+  }
   .slider-row{display:flex; flex-direction:column; gap:7px;}
   .slider-ends{display:flex; justify-content:space-between; font-size:10.5px; color:var(--paper-ink-dim); font-family:'JetBrains Mono',monospace;}
   .slider-val{
     text-align:center; font-family:'JetBrains Mono',monospace; font-size:24px; 
-    color:var(--gold); font-weight:700; transition:transform .2s;
+    color:var(--gold); font-weight:700; transition:transform 0.2s;
   }
   .slider-val:hover{transform:scale(1.1);}
   
@@ -235,30 +237,36 @@
     width:100%; padding:13px; margin-top:6px; border:none; cursor:pointer; 
     background:var(--gold); color:var(--canvas); font-weight:700; font-size:13.5px; 
     font-family:'Space Grotesk',sans-serif; border-radius:8px; 
-    transition:background .2s, transform .15s, box-shadow .2s;
+    transition:background 0.2s, transform 0.15s, box-shadow 0.2s;
     position:relative; overflow:hidden;
   }
   button.submit::after{
     content:''; position:absolute; top:0; left:-100%; width:100%; height:100%;
     background:linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-    transition:left .4s;
+    transition:left 0.4s;
   }
   button.submit:hover{background:#e0b34a;}
   button.submit:hover::after{left:100%;}
-  button.submit:active{transform:scale(.98);}
+  button.submit:active{transform:scale(0.98);}
   
   .thankyou{
     display:none; text-align:center; padding:32px 8px;
     background:var(--canvas-3); border-radius:10px; 
-    animation:fadeIn .4s ease;
+    animation:fadeIn 0.4s ease;
   }
-  @keyframes fadeIn{from{opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);}}
+  @keyframes fadeIn{
+    from{opacity:0; transform:translateY(15px);} 
+    to{opacity:1; transform:translateY(0);}
+  }
   .thankyou .check{
     width:38px; height:38px; background:var(--teal); color:#fff; border-radius:50%; 
     display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:18px; 
-    animation:pop .4s cubic-bezier(.2,1.4,.4,1);
+    animation:pop 0.4s cubic-bezier(0.2,1.4,0.4,1);
   }
-  @keyframes pop{from{transform:scale(0);} to{transform:scale(1);}}
+  @keyframes pop{
+    from{transform:scale(0);} 
+    to{transform:scale(1);}
+  }
   .thankyou h4{font-size:16px; margin-bottom:7px; color:var(--paper-ink);}
   .thankyou p{font-size:12.5px; color:var(--paper-ink-dim); max-width:36ch; margin:0 auto;}
 
@@ -274,82 +282,148 @@
 </style>
 </head>
 <body>
-<!-- ... (NAV, HERO, SECTIONS 01-08 залишаються без змін) ... -->
 
-<!-- СЕКЦІЯ ОПИТУВАННЯ З НОВИМ ДИЗАЙНОМ -->
-<section class="section dark reveal" id="survey" style="border-bottom:none;">
-  <div class="eyebrow-row"><span class="dash"></span><span class="eyebrow">For the next project</span></div>
-  <h2>This round is closed, but the next one is open</h2>
-  <p class="desc">Asociația Vechea Bucovină is already shaping the follow-up study. Your answer feeds into that, not into the numbers above.</p>
-  <div class="survey-shell">
-    <div class="survey-note">
-      <h3>Help shape what comes next</h3>
-      <p>
-        The findings on this page are locked in — they belong to the May to August 2026 round.
-        But Asociația Vechea Bucovină and its five partner organizations are already preparing
-        the next study, and it starts with the same kind of honest answers.
-      </p>
-      <div class="reopen-badge"><span class="sq"></span> Now collecting answers for the next project</div>
+<div class="nav">
+  <div class="mark"><span class="needle"></span><span class="label">RHWB · FIELD FILE</span></div>
+  <nav id="navlinks">
+    <a href="#context">Context</a>
+    <a href="#methodology">Method</a>
+    <a href="#partners">Partners</a>
+    <a href="#findings">Findings</a>
+    <a href="#network">Countries</a>
+    <a href="#audience">Audience</a>
+    <a href="#interests">Interests</a>
+    <a href="#barriers">Barriers</a>
+    <a href="#table">Data table</a>
+    <a href="#survey">Next round</a>
+  </nav>
+</div>
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-tag">Field research · Rural Heritage Without Borders</div>
+    <h1 class="title">Do young people still feel <em class="serif">ownership</em> of their own village's heritage?</h1>
+    <p class="hero-sub">
+      Before a single workshop was designed, Asociația Vechea Bucovină asked. Between May and
+      August 2026 the Romanian NGO ran a survey through its Rural Heritage Data Hub, reaching
+      young people in rural and small-town communities across six partner countries. What came
+      back shaped every part of this project.
+    </p>
+    <div class="stitch-rule" id="heroStitch"><span class="pin"></span><span class="dash-line"></span></div>
+    <div class="hero-stats">
+      <div class="cell"><div class="num" data-count="294">0</div><div class="lbl">forms completed</div></div>
+      <div class="cell"><div class="num" data-count="6">0</div><div class="lbl">countries surveyed</div></div>
+      <div class="cell"><div class="num mono" style="font-size:20px;">May–Aug</div><div class="lbl">2026 field window</div></div>
+      <div class="cell"><div class="num" data-decimal="4.3">0</div><div class="lbl">avg. confidence /10</div></div>
     </div>
-    <form class="survey-form" id="surveyForm">
-      <div id="formFields">
-        <div class="f-group">
-          <label>Where are you from?</label>
-          <select name="country">
-            <option>Romania</option><option>Ukraine</option><option>Poland</option>
-            <option>Czechia</option><option>Moldova</option><option>North Macedonia</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <div class="f-group">
-          <label>Your age group</label>
-          <select name="age">
-            <option>15 to 17</option><option>18 to 21</option>
-            <option>22 to 25</option><option>26 to 30</option><option>Other</option>
-          </select>
-        </div>
-        <div class="f-group">
-          <label>Do you feel you have practical knowledge of your region's traditional crafts or heritage?</label>
-          <select name="knowledge">
-            <option>Yes, quite a lot</option><option>Some</option>
-            <option>Very little</option><option>None at all</option>
-          </select>
-        </div>
-        <div class="f-group">
-          <label>How confident are you that heritage could become a real resource for your community's future?</label>
-          <div class="slider-row">
-            <input type="range" min="0" max="10" value="5" id="confSlider">
-            <div class="slider-val" id="confVal">5</div>
-            <div class="slider-ends"><span>Not confident at all</span><span>Very confident</span></div>
-          </div>
-        </div>
-        <div class="f-group">
-          <label>What's the biggest barrier stopping you from learning about your heritage or launching a related initiative?<span class="req">*</span></label>
-          <select name="barrier" required>
-            <option value="" disabled selected>Pick one option</option>
-            <option>No access to knowledge holders or artisans nearby</option>
-            <option>No non-formal framework to learn through</option>
-            <option>Lack of funding or basic tools</option>
-            <option>Heritage feels irrelevant to peers</option>
-            <option>No platform to showcase my work</option>
-            <option>Other</option>
-          </select>
-        </div>
-        <button type="submit" class="submit">Submit answer for the next project</button>
-      </div>
-      <div class="thankyou" id="thankYou">
-        <div class="check">✓</div>
-        <h4>Thanks, we've got it</h4>
-        <p>Your answer has been logged for the next project under "Rural Heritage Without Borders." The results on this page stay as they are.</p>
-      </div>
-    </form>
   </div>
-</section>
+</header>
 
-<!-- ... (CTA STRIP, FOOTER) ... -->
+<main class="wrap">
 
-<script>
-  // ... (ВЕСЬ ПОПЕРЕДНІЙ JS ЗАЛИШАЄТЬСЯ БЕЗ ЗМІН) ...
-</script>
-</body>
-</html>
+  <section class="section reveal" id="context">
+    <div class="eyebrow-row"><span class="dash"></span><span class="eyebrow">Why we asked</span></div>
+    <h2>The gap between a living tradition and a museum piece</h2>
+    <p class="desc">Some background on the pattern this survey was built to test.</p>
+    <div class="card context-card">
+      <p>
+        Digital and economic change has hit rural communities across Europe hard, and one of the
+        clearest signs is the slow erosion of living identity paired with a steady outflow of
+        young people. Traditional crafts, oral folklore and local customs are increasingly
+        treated by young people as relics for a museum wall rather than something they could
+        actually use to build a life at home.
+      </p>
+      <p>
+        That cultural distance is made worse by a real lack of local opportunity, which pushes
+        young people toward big cities and quietly wears down the ties between generations that
+        used to hold rural communities together. <strong>UNESCO</strong> has pointed out that
+        connecting young people to intangible cultural heritage through hands-on, non-formal
+        learning is one of the more effective ways to protect local identity and support
+        sustainable community development. <strong>Eurostat</strong>'s demographic data backs
+        this up from a different angle: the working-age and youth population in the EU's rural
+        regions is shrinking by roughly 0.6 to 0.7 percent a year, with more than 160 regions
+        facing acute depopulation.
+      </p>
+      <p>
+        To see how that plays out in its own cross-border network, rather than assume, Asociația
+        Vechea Bucovină asked young people directly. The findings below are what shaped "Rural
+        Heritage Without Borders" from the ground up.
+      </p>
+    </div>
+  </section>
+
+  <section class="section reveal" id="methodology">
+    <div class="eyebrow-row"><span class="dash"></span><span class="eyebrow">Methodology</span></div>
+    <h2>How this data was collected</h2>
+    <p class="desc">A quick note on who ran it, who answered, and when.</p>
+    <div class="method-grid">
+      <div class="card">
+        <h3>Who ran it, and when</h3>
+        <p>
+          The survey ran on the Rural Heritage Data Hub tool <strong style="color:var(--ink);">from May through August 2026</strong>,
+          led by <strong style="color:var(--ink);">Asociația Vechea Bucovină</strong> (Romania)
+          during the preparation stage of the "Rural Heritage Without Borders" youth exchange.
+          Respondents were young people connected to rural or small-town communities, reached
+          through the six partner organizations' local networks.
+        </p>
+        <div class="closed-badge"><span class="sq"></span> Survey closed · results are final</div>
+      </div>
+      <div class="card">
+        <h3>Where responses came from</h3>
+        <p>294 forms came in from young people across six partner countries:</p>
+        <div class="countrylist">
+          <span>🇷🇴 Romania</span><span>🇺🇦 Ukraine</span><span>🇵🇱 Poland</span>
+          <span>🇨🇿 Czechia</span><span>🇲🇩 Moldova</span><span>🇲🇰 North Macedonia</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reveal" id="partners">
+    <div class="eyebrow-row"><span class="dash"></span><span class="eyebrow">Who ran this study</span></div>
+    <h2>One lead organization, six countries of reach</h2>
+    <p class="desc">Asociația Vechea Bucovină designed and coordinated the research; five partner organizations ran it locally.</p>
+    <div class="card" style="padding:6px 6px 10px; overflow-x:auto;">
+      <table class="org-table">
+        <tr class="lead">
+          <td class="flag">🇷🇴 Romania</td>
+          <td class="name">Asociația Vechea Bucovină <span class="lead-mark">Lead · research owner</span></td>
+          <td class="desc">Poiana Stampei, Suceava county. Designed the survey, hosts the Rural Heritage Data Hub and coordinates the whole project.</td>
+        </tr>
+        <tr>
+          <td class="flag">🇺🇦 Ukraine</td>
+          <td class="name">NGO "NFED"</td>
+          <td class="desc">Works with internally displaced youth and social adaptation through cultural practice, active in Mykolaiv and the Lviv region.</td>
+        </tr>
+        <tr>
+          <td class="flag">🇨🇿 Czechia</td>
+          <td class="name">EUnity, z.s.</td>
+          <td class="desc">Cultural management and rural revitalization specialists, active in the Zlín district and Brno.</td>
+        </tr>
+        <tr>
+          <td class="flag">🇲🇰 N. Macedonia</td>
+          <td class="name">Eko-Zhivot</td>
+          <td class="desc">Environmental and non-formal education organization running its own Eco-Education Centre in Kavadarci.</td>
+        </tr>
+        <tr>
+          <td class="flag">🇲🇩 Moldova</td>
+          <td class="name">JEF Moldova</td>
+          <td class="desc">Youth facilitation and local storytelling, working with district youth councils including Glodeni district.</td>
+        </tr>
+        <tr>
+          <td class="flag">🇵🇱 Poland</td>
+          <td class="name">Fundacja Arbuzy</td>
+          <td class="desc">Civic engagement work with schools across the Łódź Voivodeship, based in Tomaszów Mazowiecki.</td>
+        </tr>
+      </table>
+    </div>
+  </section>
+
+  <section class="section reveal" id="findings">
+    <div class="eyebrow-row"><span class="dash"></span><span class="eyebrow">Headline findings</span></div>
+    <h2>Four numbers that shaped this project</h2>
+    <p class="desc">These are the figures the whole "Rural Heritage Without Borders" proposal is built around.</p>
+    <div class="stat-strip">
+      <div class="cell"><div class="big" data-count="71" data-suffix="%">0%</div><div class="lbl">say they have almost no practical knowledge of the traditional crafts or heritage of their own region</div></div>
+      <div class="cell"><div class="big" data-count="64" data-suffix="%">0%</div><div class="lbl">have considered moving to a bigger city because of a sense of isolation at home</div></div>
+      <div class="cell"><div class="big" data-count="82" data-suffix="%">0%</div><div class="lbl">feel that heritage currently
