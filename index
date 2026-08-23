@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rural Heritage Without Borders · Field Research</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bitter:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Karla:wght@400;500;600;700&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F5EDDC;
+    --paper-2:#EBE0C6;
+    --card:#FFFCF4;
+    --line:#D9C9A3;
+    --ink:#2B2118;
+    --ink-dim:#786A52;
+    --clay:#C1613D;
+    --clay-dim:#A34E2F;
+    --forest:#3F5D42;
+    --forest-dim:#2C4630;
+    --ochre:#CC9A3E;
+    --plum:#6B3F5B;
+    --slate:#4A5A66;
+    --sidebar-w:236px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--paper); color:var(--ink); font-family:'Karla',sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--clay); color:var(--card);}
+  h1,h2,h3{font-family:'Bitter',serif; font-weight:600; letter-spacing:-0.01em; color:var(--ink);}
+  .mono{font-family:'Courier Prime',monospace;}
+  a{color:inherit;}
+
+  /* ===== SIDEBAR ===== */
+  .sidebar{
+    position:fixed; top:0; left:0; width:var(--sidebar-w); height:100vh; overflow-y:auto;
+    background:var(--forest); color:#EDE6D2; padding:26px 22px; display:flex; flex-direction:column;
+    justify-content:space-between; z-index:60;
+  }
+  .sb-top .mark{display:flex; align-items:center; gap:9px; font-family:'Courier Prime',monospace; font-size:12px; letter-spacing:0.05em; margin-bottom:34px;}
+  .sb-top .mark .diamond{width:8px; height:8px; background:var(--ochre); transform:rotate(45deg); flex-shrink:0;}
+  .sb-top nav a{
+    display:block; font-size:13.5px; padding:9px 0; color:rgba(237,230,210,0.72); text-decoration:none;
+    border-bottom:1px solid rgba(237,230,210,0.12); transition:.2s;
+  }
+  .sb-top nav a:hover{color:#fff; padding-left:4px;}
+  .sb-bottom{font-size:11.5px; color:rgba(237,230,210,0.6); line-height:1.6;}
+  .sb-bottom .lead-tag{
+    display:inline-block; font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:0.06em;
+    background:rgba(237,230,210,0.12); padding:4px 8px; border-radius:3px; margin-bottom:10px;
+  }
+  .sb-bottom a.back{color:#EDE6D2; text-decoration:none; border-bottom:1px dashed rgba(237,230,210,0.5);}
+
+  /* ===== MAIN ===== */
+  .main{margin-left:var(--sidebar-w);}
+  .wrap{max-width:900px; padding:0 44px;}
+
+  @media (max-width:900px){
+    .sidebar{position:static; width:100%; height:auto; flex-direction:row; flex-wrap:wrap; gap:20px; padding:18px 22px;}
+    .sb-top{flex:1 1 auto;} .sb-top nav{display:flex; flex-wrap:wrap; gap:0 18px;} .sb-top nav a{border-bottom:none; padding:4px 0;}
+    .sb-bottom{flex:1 1 100%;}
+    .main{margin-left:0;}
+    .wrap{padding:0 24px;}
+  }
+
+  /* ===== HERO ===== */
+  header.hero{padding:56px 0 0;}
+  .hero-grid{display:grid; grid-template-columns:1.15fr 0.85fr; gap:40px; align-items:start;}
+  @media (max-width:760px){ .hero-grid{grid-template-columns:1fr;} }
+  .hero-tag{font-size:12.5px; color:var(--ink-dim); font-family:'Courier Prime',monospace; margin-bottom:18px;}
+  h1.title{font-size:clamp(28px,4vw,46px); line-height:1.18;}
+  h1.title em{font-style:italic; color:var(--clay-dim); font-weight:600;}
+  .hero-sub{margin-top:18px; font-size:15.5px; color:var(--ink-dim); line-height:1.72;}
+
+  .specimen{
+    border:1px solid var(--ink); background:var(--card); padding:20px; position:relative;
+  }
+  .specimen::before, .specimen::after,
+  .specimen .c2::before, .specimen .c2::after{content:''; position:absolute; width:14px; height:14px;}
+  .specimen::before{top:-1px; left:-1px; border-top:2px solid var(--clay); border-left:2px solid var(--clay);}
+  .specimen::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--clay); border-right:2px solid var(--clay);}
+  .specimen .stamp-num{font-family:'Bitter',serif; font-size:52px; font-weight:700; color:var(--forest-dim); line-height:1;}
+  .specimen .stamp-lbl{font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:0.08em; color:var(--ink-dim); margin-top:8px; text-transform:uppercase;}
+  .specimen .stamp-row{display:flex; justify-content:space-between; align-items:flex-end; margin-top:22px; padding-top:16px; border-top:1px dashed var(--line);}
+  .specimen .stamp-row div{text-align:center;}
+  .specimen .stamp-row .n{font-family:'Bitter',serif; font-size:18px; color:var(--clay-dim); font-weight:700;}
+  .specimen .stamp-row .l{font-family:'Courier Prime',monospace; font-size:8.5px; color:var(--ink-dim); margin-top:3px;}
+
+  .ledger{display:grid; grid-template-columns:repeat(4,1fr); border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); margin-top:40px;}
+  .ledger .cell{padding:18px 20px; border-right:1px solid var(--line);}
+  .ledger .cell:last-child{border-right:none;}
+  .ledger .num{font-family:'Bitter',serif; font-size:25px; font-weight:700; color:var(--ink);}
+  .ledger .lbl{font-size:11.5px; color:var(--ink-dim); margin-top:5px; line-height:1.4;}
+  @media (max-width:700px){ .ledger{grid-template-columns:1fr 1fr;} .ledger .cell:nth-child(2){border-right:none;} }
+
+  /* ===== FIELD ROW (numbered section) ===== */
+  .field-row{display:grid; grid-template-columns:56px 1fr; gap:22px; padding:52px 0; border-bottom:1px solid var(--line);}
+  @media (max-width:620px){ .field-row{grid-template-columns:1fr;} .field-num{display:none;} }
+  .field-num{font-family:'Bitter',serif; font-size:44px; font-weight:700; color:var(--paper-2); line-height:1; -webkit-text-stroke:1px var(--line);}
+  .field-eyebrow{font-family:'Courier Prime',monospace; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--clay-dim); margin-bottom:10px;}
+  .field-row h2{font-size:clamp(21px,2.6vw,29px); margin-bottom:10px;}
+  .field-row .desc{font-size:13.5px; color:var(--ink-dim); max-width:56ch; margin-bottom:26px;}
+
+  /* tag-card (museum label) */
+  .tag-card{position:relative; background:var(--card); border:1px solid var(--line); padding:24px;}
+  .tag-card::before, .tag-card::after{content:''; position:absolute; width:10px; height:10px;}
+  .tag-card::before{top:-1px; left:-1px; border-top:2px solid var(--forest); border-left:2px solid var(--forest);}
+  .tag-card::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--forest); border-right:2px solid var(--forest);}
+
+  .context-card p{font-size:14px; color:var(--ink-dim); line-height:1.78; margin-bottom:14px;}
+  .context-card p:last-child{margin-bottom:0;}
+  .context-card strong{color:var(--ink); font-weight:700;}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:20px;}
+  @media (max-width:700px){ .grid-2{grid-template-columns:1fr;} }
+
+  .method-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:18px;}
+  @media (max-width:700px){ .method-grid{grid-template-columns:1fr;} }
+  .tag-card h3{font-size:16px; margin-bottom:10px;}
+  .tag-card p{font-size:13.5px; color:var(--ink-dim); line-height:1.68;}
+  .closed-badge{display:inline-flex; align-items:center; gap:7px; margin-top:16px; font-family:'Courier Prime',monospace; font-size:10.5px; letter-spacing:0.04em; color:var(--clay-dim); border:1px solid var(--clay); padding:5px 9px;}
+  .closed-badge .sq{width:6px; height:6px; background:var(--clay);}
+  .countrylist{display:flex; flex-wrap:wrap; gap:6px; margin-top:14px;}
+  .countrylist span{font-family:'Courier Prime',monospace; font-size:10.5px; padding:4px 9px; background:var(--paper-2); border:1px solid var(--line); color:var(--ink-dim);}
+
+  /* org list (ledger table style, not cards) */
+  .org-table{width:100%; border-collapse:collapse; font-size:13px;}
+  .org-table tr{border-bottom:1px solid var(--line);}
+  .org-table tr:first-child{border-top:1px solid var(--ink);}
+  .org-table tr.lead{background:var(--paper-2);}
+  .org-table td{padding:14px 12px; vertical-align:top;}
+  .org-table td.flag{font-family:'Courier Prime',monospace; font-size:11px; color:var(--ink-dim); width:110px;}
+  .org-table td.name{font-family:'Bitter',serif; font-weight:700; font-size:14.5px; width:220px;}
+  .org-table td.desc{color:var(--ink-dim); font-size:12.5px; line-height:1.55;}
+  .org-table .lead-mark{font-family:'Courier Prime',monospace; font-size:9.5px; color:var(--forest-dim); background:rgba(63,93,66,0.15); padding:2px 6px; margin-left:8px;}
+
+  /* stat blocks (no card boxes, ledger style) */
+  .stat-strip{display:grid; grid-template-columns:repeat(4,1fr); gap:0; border:1px solid var(--ink);}
+  @media (max-width:700px){ .stat-strip{grid-template-columns:1fr 1fr;} }
+  .stat-strip .cell{padding:24px 20px; border-right:1px solid var(--line); border-bottom:0;}
+  .stat-strip .cell:nth-child(4n){border-right:none;}
+  @media (max-width:700px){ .stat-strip .cell:nth-child(2n){border-right:none;} .stat-strip .cell{border-bottom:1px solid var(--line);} }
+  .stat-strip .big{font-family:'Bitter',serif; font-size:36px; font-weight:700; color:var(--clay-dim); line-height:1;}
+  .stat-strip .cell:nth-child(2) .big{color:var(--forest-dim);}
+  .stat-strip .cell:nth-child(3) .big{color:var(--ochre);}
+  .stat-strip .cell:nth-child(4) .big{color:var(--plum);}
+  .stat-strip .lbl{font-size:12px; color:var(--ink-dim); margin-top:10px; line-height:1.5;}
+
+  /* waffle */
+  .waffle-wrap{display:flex; gap:30px; flex-wrap:wrap; align-items:center;}
+  .waffle-grid{display:grid; grid-template-columns:repeat(21, 9px); grid-auto-rows:9px; gap:3px;}
+  .waffle-grid .sq{width:9px; height:9px;}
+  .waffle-legend{display:flex; flex-direction:column; gap:8px; font-size:12px; min-width:190px;}
+  .waffle-legend .lg{display:flex; align-items:center; gap:8px;}
+  .waffle-legend .sw{width:10px; height:10px;}
+  .waffle-legend .val{font-family:'Courier Prime',monospace; color:var(--clay-dim); margin-left:auto; padding-left:10px;}
+  .waffle-note{font-size:10.5px; color:var(--ink-dim); margin-top:14px; font-family:'Courier Prime',monospace;}
+
+  /* ribbon */
+  .ribbon{display:flex; height:30px; border:1px solid var(--ink); overflow:hidden;}
+  .ribbon .seg{display:flex; align-items:center; justify-content:center; font-family:'Courier Prime',monospace; font-size:10.5px; color:#fff;}
+  .ribbon-legend{display:flex; flex-wrap:wrap; gap:12px; margin-top:12px; font-size:11.5px; color:var(--ink-dim);}
+  .ribbon-legend .lg{display:flex; align-items:center; gap:6px;}
+  .ribbon-legend .sw{width:9px; height:9px;}
+
+  /* petal */
+  .petal-wrap{display:flex; align-items:center; gap:26px; flex-wrap:wrap;}
+  #petalSvg{width:230px; height:230px; flex-shrink:0;}
+  .petal-legend{display:flex; flex-direction:column; gap:8px; font-size:12px; min-width:200px;}
+  .petal-legend .lg{display:flex; align-items:center; gap:8px;}
+  .petal-legend .sw{width:10px; height:10px; border-radius:50%;}
+  .petal-legend .val{font-family:'Courier Prime',monospace; color:var(--clay-dim); margin-left:auto; padding-left:10px;}
+
+  /* gauge */
+  .gauge-wrap{display:flex; flex-direction:column; align-items:center;}
+  #arcSvg{width:200px; height:118px;}
+  .gauge-num{font-family:'Bitter',serif; font-size:32px; font-weight:700; text-align:center; margin-top:-4px;}
+  .gauge-num span{font-size:12.5px; font-family:'Courier Prime',monospace; color:var(--ink-dim); display:block; margin-top:4px; font-weight:400;}
+
+  .col-hist{display:flex; align-items:flex-end; gap:10px; height:96px; margin-top:20px;}
+  .col-hist .c{flex:1; display:flex; flex-direction:column; align-items:center; gap:7px; height:100%; justify-content:flex-end;}
+  .col-hist .bar{width:100%; background:var(--forest);}
+  .col-hist .pct{font-family:'Courier Prime',monospace; font-size:10px; color:var(--ink-dim);}
+  .col-hist .lbl{font-family:'Courier Prime',monospace; font-size:9px; color:var(--ink-dim);}
+
+  /* barrier columns */
+  .barrier-cols{display:flex; align-items:flex-end; gap:14px; height:200px; padding-top:10px;}
+  .barrier-cols .c{flex:1; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; height:100%;}
+  .barrier-cols .val{font-family:'Courier Prime',monospace; font-size:12px; margin-bottom:8px;}
+  .barrier-cols .bar{width:100%; max-width:48px; background:var(--clay);}
+  .barrier-cols .lbl{font-size:10.5px; color:var(--ink-dim); text-align:center; margin-top:10px; line-height:1.35; max-width:90px;}
+
+  table.country-t{width:100%; border-collapse:collapse; font-size:12.5px;}
+  table.country-t thead th{text-align:left; font-family:'Courier Prime',monospace; font-size:10px; letter-spacing:0.04em; text-transform:uppercase; color:var(--ink-dim); padding:0 10px 10px; border-bottom:2px solid var(--ink);}
+  table.country-t tbody td{padding:12px 10px; border-bottom:1px solid var(--line);}
+  table.country-t tbody tr:hover{background:var(--paper-2);}
+  table.country-t td.num{font-family:'Courier Prime',monospace; color:var(--clay-dim);}
+
+  /* survey */
+  .survey-shell{display:grid; grid-template-columns:0.85fr 1.15fr; gap:36px;}
+  @media (max-width:700px){ .survey-shell{grid-template-columns:1fr;} }
+  .survey-note h3{font-size:19px; margin-bottom:12px;}
+  .survey-note p{font-size:13.5px; color:var(--ink-dim); line-height:1.7; margin-bottom:12px;}
+  .reopen-badge{display:inline-flex; align-items:center; gap:7px; margin-top:6px; font-family:'Courier Prime',monospace; font-size:10.5px; letter-spacing:0.04em; color:var(--forest-dim); border:1px solid var(--forest); padding:5px 9px;}
+  .reopen-badge .sq{width:6px; height:6px; background:var(--forest); border-radius:50%;}
+
+  form.survey-form{background:var(--card); border:1px solid var(--ink); padding:26px;}
+  .f-group{margin-bottom:18px;}
+  .f-group label{display:block; font-size:12.5px; margin-bottom:8px; color:var(--ink); font-weight:700;}
+  .f-group label .req{color:var(--clay-dim); margin-left:4px;}
+  select, input[type=range]{width:100%; padding:10px 11px; background:var(--paper); border:1px solid var(--line); color:var(--ink); font-family:'Karla',sans-serif; font-size:13.5px;}
+  select:focus, input[type=range]:focus{outline:2px solid var(--clay); outline-offset:2px;}
+  .slider-row{display:flex; flex-direction:column; gap:7px;}
+  .slider-ends{display:flex; justify-content:space-between; font-size:10.5px; color:var(--ink-dim); font-family:'Courier Prime',monospace;}
+  .slider-val{text-align:center; font-family:'Bitter',serif; font-size:18px; color:var(--clay-dim); font-weight:700;}
+  button.submit{width:100%; padding:13px; margin-top:2px; border:none; cursor:pointer; background:var(--clay); color:#fff; font-weight:700; font-size:13.5px; font-family:'Karla',sans-serif; transition:background .2s;}
+  button.submit:hover{background:var(--clay-dim);}
+  .thankyou{display:none; text-align:center; padding:32px 8px;}
+  .thankyou .check{width:38px; height:38px; background:var(--forest); color:#fff; display:flex; align-items:center; justify-content:center; margin:0 auto 14px; font-size:18px;}
+  .thankyou h4{font-size:16px; margin-bottom:7px;}
+  .thankyou p{font-size:12.5px; color:var(--ink-dim); max-width:36ch; margin:0 auto;}
+
+  .cta-strip{background:var(--forest); color:#F0E9D6; padding:32px; display:flex; justify-content:space-between; align-items:center; gap:22px; flex-wrap:wrap;}
+  .cta-strip h3{font-size:18px; color:#F5EDDC; margin-bottom:8px;}
+  .cta-strip p{font-size:13px; color:rgba(240,233,214,0.78); max-width:44ch;}
+  .cta-btn{font-family:'Courier Prime',monospace; font-size:11.5px; letter-spacing:0.04em; text-decoration:none; color:var(--forest-dim); background:#F5EDDC; padding:11px 18px; white-space:nowrap;}
+
+  footer{padding:32px 44px 60px;}
+  footer .fnote{font-size:11.5px; color:var(--ink-dim); max-width:640px; line-height:1.6; border-top:1px solid var(--line); padding-top:20px;}
+  footer .fmono{font-family:'Courier Prime',monospace; font-size:10.5px; color:var(--ink-dim); margin-bottom:8px;}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-top">
+    <nav>
+      <a href="#context">Context</a>
+      <a href="#methodology">Methodology</a>
+      <a href="#partners">Partners</a>
+      <a href="#findings">Findings</a>
+      <a href="#network">Origins</a>
+      <a href="#audience">Audience</a>
+      <a href="#interests">Interests</a>
+      <a href="#barriers">Barriers</a>
+      <a href="#table">Country data</a>
+      <a href="#survey">Next round</a>
+    </nav>
+  </div>
+  <div class="sb-bottom">
+    <span class="lead-tag">🇷🇴 LED BY ROMANIA</span><br>
+    Study designed and run by<br><strong>Asociația Vechea Bucovină</strong><br><br>
+    <a href="index.html" class="back">← Youth Data Hub</a>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="wrap">
+
+    <header class="hero">
+      <div class="hero-grid">
+        <div>
+          <div class="hero-tag">RURAL HERITAGE WITHOUT BORDERS</div>
+          <h1 class="title">Do young people still feel <em>ownership</em> of their own village's heritage?</h1>
+          <p class="hero-sub">
+            Before a single workshop was designed, Asociația Vechea Bucovină asked. Between May
+            and August 2026 the Romanian NGO ran a survey through its own Rural Heritage Data Hub,
+            reaching young people in rural and small-town communities across six partner
+            countries. What came back shaped every part of this project.
+          </p>
+        </div>
+        <div class="specimen">
+          <div class="stamp-num">294</div>
+          <div class="stamp-lbl">Responses on file</div>
+          <div class="stamp-row">
+            <div><div class="n">6</div><div class="l">COUNTRIES</div></div>
+            <div><div class="n">4.3</div><div class="l">CONFIDENCE /10</div></div>
+            <div><div class="n">'26</div><div class="l">FIELD YEAR</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="ledger">
+        <div class="cell"><div class="num">294</div><div class="lbl">forms completed during the research window</div></div>
+        <div class="cell"><div class="num">6</div><div class="lbl">partner countries surveyed</div></div>
+        <div class="cell"><div class="num">May–Aug</div><div class="lbl">the survey ran May through August 2026</div></div>
+        <div class="cell"><div class="num">4.3/10</div><div class="lbl">avg. confidence heritage can become a real resource</div></div>
+      </div>
+    </header>
+
+    <div class="field-row" id="context">
+    
+      <div>
+        <div class="field-eyebrow">Why we asked</div>
+        <h2>The gap between a living tradition and a museum piece</h2>
+        <p class="desc">Some background on the pattern this survey was built to test.</p>
+        <div class="tag-card context-card">
+          <p>
+            Digital and economic change has hit rural communities across Europe hard, and one of
+            the clearest signs is the slow erosion of living identity paired with a steady outflow
+            of young people. Traditional crafts, oral folklore and local customs are increasingly
+            treated by young people as relics for a museum wall rather than something they could
+            actually use to build a life at home.
+          </p>
+          <p>
+            That cultural distance is made worse by a real lack of local opportunity, which pushes
+            young people toward big cities and quietly wears down the ties between generations
+            that used to hold rural communities together. <strong>UNESCO</strong> has pointed out
+            that connecting young people to intangible cultural heritage through hands-on,
+            non-formal learning is one of the more effective ways to protect local identity and
+            support sustainable community development. <strong>Eurostat</strong>'s demographic
+            data backs this up from a different angle: the working-age and youth population in
+            the EU's rural regions is shrinking by roughly 0.6 to 0.7 percent a year, with more
+            than 160 regions facing acute depopulation.
+          </p>
+          <p>
+            To see how that plays out in its own cross-border network, rather than assume,
+            Asociația Vechea Bucovină asked young people directly. The findings below are what
+            shaped "Rural Heritage Without Borders" from the ground up.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="methodology">
+      <div>
+        <div class="field-eyebrow">Methodology</div>
+        <h2>How this data was collected</h2>
+        <p class="desc">A quick note on who ran it, who answered, and when.</p>
+        <div class="method-grid">
+          <div class="tag-card">
+            <h3>Who ran it, and when</h3>
+            <p>
+              The survey ran on the Rural Heritage Data Hub tool <strong style="color:var(--ink);">from May through August 2026</strong>,
+              led by <strong style="color:var(--ink);">Asociația Vechea Bucovină</strong> (Romania)
+              during the preparation stage of the "Rural Heritage Without Borders" youth exchange.
+              Respondents were young people connected to rural or small-town communities, reached
+              through the six partner organizations' local networks.
+            </p>
+            <div class="closed-badge"><span class="sq"></span> SURVEY CLOSED, RESULTS ARE FINAL</div>
+          </div>
+          <div class="tag-card">
+            <h3>Where responses came from</h3>
+            <p>294 forms came in from young people across six partner countries:</p>
+            <div class="countrylist">
+              <span>🇷🇴 Romania</span><span>🇺🇦 Ukraine</span><span>🇵🇱 Poland</span>
+              <span>🇨🇿 Czechia</span><span>🇲🇩 Moldova</span><span>🇲🇰 North Macedonia</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="partners">
+      <div>
+        <div class="field-eyebrow">Who ran this study</div>
+        <h2>One lead organization, six countries of reach</h2>
+        <p class="desc">Asociația Vechea Bucovină designed and coordinated the research; five partner organizations ran it locally.</p>
+        <table class="org-table">
+          <tr class="lead">
+            <td class="flag">🇷🇴 Romania</td>
+            <td class="name">Asociația Vechea Bucovină <span class="lead-mark">LEAD · RESEARCH OWNER</span></td>
+            <td class="desc">Poiana Stampei, Suceava county. Designed the survey, hosts the Rural Heritage Data Hub and coordinates the whole project.</td>
+          </tr>
+          <tr>
+            <td class="flag">🇺🇦 Ukraine</td>
+            <td class="name">NGO "NFED"</td>
+            <td class="desc">Works with internally displaced youth and social adaptation through cultural practice, active in Mykolaiv and the Lviv region.</td>
+          </tr>
+          <tr>
+            <td class="flag">🇨🇿 Czechia</td>
+            <td class="name">EUnity, z.s.</td>
+            <td class="desc">Cultural management and rural revitalization specialists, active in the Zlín district and Brno.</td>
+          </tr>
+          <tr>
+            <td class="flag">🇲🇰 N. Macedonia</td>
+            <td class="name">Eko-Zhivot</td>
+            <td class="desc">Environmental and non-formal education organization running its own Eco-Education Centre in Kavadarci.</td>
+          </tr>
+          <tr>
+            <td class="flag">🇲🇩 Moldova</td>
+            <td class="name">JEF Moldova</td>
+            <td class="desc">Youth facilitation and local storytelling, working with district youth councils including Glodeni district.</td>
+          </tr>
+          <tr>
+            <td class="flag">🇵🇱 Poland</td>
+            <td class="name">Fundacja Arbuzy</td>
+            <td class="desc">Civic engagement work with schools across the Łódź Voivodeship, based in Tomaszów Mazowiecki.</td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="field-row" id="findings">
+      <div>
+        <div class="field-eyebrow">Headline findings</div>
+        <h2>Four numbers that shaped this project</h2>
+        <p class="desc">These are the figures the whole "Rural Heritage Without Borders" proposal is built around.</p>
+        <div class="stat-strip">
+          <div class="cell"><div class="big">71%</div><div class="lbl">say they have almost no practical knowledge of the traditional crafts or heritage of their own region</div></div>
+          <div class="cell"><div class="big">64%</div><div class="lbl">have considered moving to a bigger city because of a sense of isolation at home</div></div>
+          <div class="cell"><div class="big">82%</div><div class="lbl">feel that heritage currently sits locked away in formal institutions, out of everyday reach</div></div>
+          <div class="cell"><div class="big">78%</div><div class="lbl">want to learn practical crafts and start their own local youth initiative, given the right framework</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="network">
+      <div>
+        <div class="field-eyebrow">Where the responses came from</div>
+        <h2>294 young people, one square per two people</h2>
+        <p class="desc">Every square is two respondents. Color marks which of the six countries they answered from.</p>
+        <div class="tag-card waffle-wrap">
+          <div>
+            <div class="waffle-grid" id="waffleGrid"></div>
+            <div class="waffle-note">147 SQUARES · 2 RESPONDENTS EACH · 294 TOTAL</div>
+          </div>
+          <div class="waffle-legend" id="waffleLegend"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="audience">
+      <div>
+        <div class="field-eyebrow">Who answered</div>
+        <h2>Age and everyday setting</h2>
+        <p class="desc">A young, mostly rural group, which is exactly who the exchange is designed for.</p>
+        <div class="grid-2">
+          <div class="tag-card">
+            <h3>Age group</h3>
+            <div class="ribbon" id="ageRibbon"></div>
+            <div class="ribbon-legend" id="ageLegend"></div>
+          </div>
+          <div class="tag-card">
+            <h3>Where they live</h3>
+            <div class="ribbon" id="placeRibbon"></div>
+            <div class="ribbon-legend" id="placeLegend"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="interests">
+      <div>
+        <div class="field-eyebrow">Craft interests</div>
+        <h2>What they'd actually want to learn</h2>
+        <p class="desc">Asked which living craft or heritage practice they'd most want hands-on training in.</p>
+        <div class="grid-2">
+          <div class="tag-card">
+            <h3>Top craft or heritage interest</h3>
+            <div class="petal-wrap">
+              <svg id="petalSvg" viewBox="0 0 230 230"></svg>
+              <div class="petal-legend" id="petalLegend"></div>
+            </div>
+          </div>
+          <div class="tag-card">
+            <h3 style="text-align:center;">Confidence heritage can become a real resource</h3>
+            <div class="gauge-wrap">
+              <svg id="arcSvg" viewBox="0 0 200 118"></svg>
+              <div class="gauge-num">4.3<span>out of 10, on average</span></div>
+            </div>
+            <div class="col-hist">
+              <div class="c"><span class="pct">22%</span><div class="bar" style="height:76%;"></div><span class="lbl">0-2</span></div>
+              <div class="c"><span class="pct">29%</span><div class="bar" style="height:100%;"></div><span class="lbl">3-4</span></div>
+              <div class="c"><span class="pct">26%</span><div class="bar" style="height:90%;"></div><span class="lbl">5-6</span></div>
+              <div class="c"><span class="pct">17%</span><div class="bar" style="height:59%;"></div><span class="lbl">7-8</span></div>
+              <div class="c"><span class="pct">6%</span><div class="bar" style="height:21%;"></div><span class="lbl">9-10</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="barriers">
+      <div>
+        <div class="field-eyebrow">Biggest barrier</div>
+        <h2>What's standing between them and their own heritage</h2>
+        <p class="desc">One required answer per respondent, ranked by share of votes.</p>
+        <div class="tag-card">
+          <div class="barrier-cols">
+            <div class="c"><div class="val">29%</div><div class="bar" style="height:100%;"></div><div class="lbl">No access to knowledge holders or artisans nearby</div></div>
+            <div class="c"><div class="val">24%</div><div class="bar" style="height:83%;"></div><div class="lbl">No non-formal framework to learn through</div></div>
+            <div class="c"><div class="val">19%</div><div class="bar" style="height:66%;"></div><div class="lbl">Lack of funding or basic tools</div></div>
+            <div class="c"><div class="val">15%</div><div class="bar" style="height:52%;"></div><div class="lbl">Heritage feels irrelevant to peers</div></div>
+            <div class="c"><div class="val">9%</div><div class="bar" style="height:31%;"></div><div class="lbl">No platform to showcase their work</div></div>
+            <div class="c"><div class="val">4%</div><div class="bar" style="height:14%;"></div><div class="lbl">Other</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="table">
+      <div>
+        <div class="field-eyebrow">Country data</div>
+        <h2>Summary table of results</h2>
+        <p class="desc">Key figures broken down for each of the six partner countries.</p>
+        <div class="tag-card" style="padding:6px 6px 18px; overflow-x:auto;">
+          <table class="country-t">
+            <thead>
+              <tr>
+                <th>Country</th><th>Responses</th><th>Little craft knowledge</th>
+                <th>Considered leaving</th><th>Want to launch</th><th>Top craft interest</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="field-row" id="survey" style="border-bottom:none;">
+      <div>
+        <div class="field-eyebrow">For the next project</div>
+        <h2>This round is closed, but the next one is open</h2>
+        <p class="desc">Asociația Vechea Bucovină is already shaping the follow-up study. Your answer feeds into that, not into the numbers above.</p>
+        <div class="survey-shell">
+          <div class="survey-note">
+            <h3>Help shape what comes next</h3>
+            <p>
+              The findings on this page are locked in, they belong to the May to August 2026
+              round. But Asociația Vechea Bucovină and its five partner organizations are already
+              preparing the next study, and it starts with the same kind of honest answers.
+            </p>
+            <div class="reopen-badge"><span class="sq"></span> NOW COLLECTING ANSWERS FOR THE NEXT PROJECT</div>
+          </div>
+          <form class="survey-form" id="surveyForm">
+            <div id="formFields">
+              <div class="f-group">
+                <label>Where are you from?</label>
+                <select name="country">
+                  <option>Romania</option><option>Ukraine</option><option>Poland</option>
+                  <option>Czechia</option><option>Moldova</option><option>North Macedonia</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <div class="f-group">
+                <label>Your age group</label>
+                <select name="age">
+                  <option>15 to 17</option><option>18 to 21</option>
+                  <option>22 to 25</option><option>26 to 30</option><option>Other</option>
+                </select>
+              </div>
+              <div class="f-group">
+                <label>Do you feel you have practical knowledge of your region's traditional crafts or heritage?</label>
+                <select name="knowledge">
+                  <option>Yes, quite a lot</option><option>Some</option>
+                  <option>Very little</option><option>None at all</option>
+                </select>
+              </div>
+              <div class="f-group">
+                <label>How confident are you that heritage could become a real resource for your community's future?</label>
+                <div class="slider-row">
+                  <input type="range" min="0" max="10" value="5" id="confSlider">
+                  <div class="slider-val" id="confVal">5</div>
+                  <div class="slider-ends"><span>Not confident at all</span><span>Very confident</span></div>
+                </div>
+              </div>
+              <div class="f-group">
+                <label>What's the biggest barrier stopping you from learning about your heritage or launching a related initiative?<span class="req">*</span></label>
+                <select name="barrier" required>
+                  <option value="" disabled selected>Pick one option</option>
+                  <option>No access to knowledge holders or artisans nearby</option>
+                  <option>No non-formal framework to learn through</option>
+                  <option>Lack of funding or basic tools</option>
+                  <option>Heritage feels irrelevant to peers</option>
+                  <option>No platform to showcase my work</option>
+                  <option>Other</option>
+                </select>
+              </div>
+              <button type="submit" class="submit">Submit answer for the next project</button>
+            </div>
+            <div class="thankyou" id="thankYou">
+              <div class="check">✓</div>
+              <h4>Thanks, we've got it</h4>
+              <p>Your answer has been logged for the next project under "Rural Heritage Without Borders." The results on this page stay as they are.</p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div style="padding:44px 0;">
+      <div class="cta-strip">
+        <div>
+          <h3>This is where "Rural Heritage Without Borders" starts</h3>
+          <p>These numbers, collected by Asociația Vechea Bucovină, became the basis for a 7-day youth exchange in Bucovina, Romania, plus follow-up workshops reaching young people in all six partner countries.</p>
+        </div>
+        <a class="cta-btn" href="index.html">← Back to Youth Data Hub</a>
+      </div>
+    </div>
+
+    <footer>
+      <div class="fmono">RURAL HERITAGE WITHOUT BORDERS · ERASMUS+ YOUTH EXCHANGE</div>
+      <p class="fnote">
+        Research designed and coordinated by Asociația Vechea Bucovină (Romania) and carried out
+        from May through August 2026 with young people connected to rural and small-town
+        communities in Romania, Ukraine, Poland, Czechia, Moldova and North Macedonia, together
+        with partners NGO "NFED", EUnity z.s., Eko-Zhivot, JEF Moldova and Fundacja Arbuzy. The
+        figures shown here fed directly into the design of the youth exchange and its follow-up
+        activities.
+      </p>
+    </footer>
+
+  </div>
+</div>
+
+<script>
+  const slider = document.getElementById('confSlider');
+  const confVal = document.getElementById('confVal');
+  slider.addEventListener('input', () => { confVal.textContent = slider.value; });
+
+  document.getElementById('surveyForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    document.getElementById('formFields').style.display = 'none';
+    document.getElementById('thankYou').style.display = 'block';
+  });
+
+  const COLORS = {
+    Romania:'#C1613D', Ukraine:'#3F5D42', Poland:'#CC9A3E',
+    Czechia:'#6B3F5B', Moldova:'#4A5A66', "North Macedonia":'#A34E2F'
+  };
+
+  const rows = [
+    ["Romania", 58, "74%", "61%", "83%", "Woodworking"],
+    ["Ukraine", 54, "69%", "72%", "81%", "Textile & embroidery"],
+    ["Poland", 48, "65%", "58%", "74%", "Ceramics & pottery"],
+    ["Czechia", 45, "68%", "55%", "77%", "Culinary heritage"],
+    ["Moldova", 47, "77%", "70%", "80%", "Textile & embroidery"],
+    ["North Macedonia", 42, "73%", "66%", "76%", "Music & oral folklore"],
+  ];
+  const tbody = document.getElementById('tableBody');
+  rows.forEach(r => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${r[0]}</td><td class="num">${r[1]}</td><td class="num">${r[2]}</td><td class="num">${r[3]}</td><td class="num">${r[4]}</td><td>${r[5]}</td>`;
+    tbody.appendChild(tr);
+  });
+
+  const waffleData = [
+    {name:"Romania", squares:29, count:58},
+    {name:"Ukraine", squares:27, count:54},
+    {name:"Poland", squares:24, count:48},
+    {name:"Czechia", squares:23, count:45},
+    {name:"Moldova", squares:23, count:47},
+    {name:"North Macedonia", squares:21, count:42},
+  ];
+  const waffleGrid = document.getElementById('waffleGrid');
+  waffleData.forEach(d => {
+    for(let i=0;i<d.squares;i++){
+      const sq = document.createElement('div');
+      sq.className = 'sq';
+      sq.style.background = COLORS[d.name];
+      sq.title = d.name;
+      waffleGrid.appendChild(sq);
+    }
+  });
+  const waffleLegend = document.getElementById('waffleLegend');
+  waffleData.forEach(d => {
+    const pct = Math.round((d.count/294)*100);
+    const row = document.createElement('div');
+    row.className = 'lg';
+    row.innerHTML = `<span class="sw" style="background:${COLORS[d.name]};"></span> ${d.name} <span class="val">${d.count} · ${pct}%</span>`;
+    waffleLegend.appendChild(row);
+  });
+
+  const ageData = [
+    {name:"15 to 17", pct:8, color:'#C1613D'},
+    {name:"18 to 21", pct:34, color:'#3F5D42'},
+    {name:"22 to 25", pct:37, color:'#CC9A3E'},
+    {name:"26 to 30", pct:21, color:'#6B3F5B'},
+  ];
+  const ageRibbon = document.getElementById('ageRibbon');
+  const ageLegend = document.getElementById('ageLegend');
+  ageData.forEach(d => {
+    const seg = document.createElement('div');
+    seg.className = 'seg'; seg.style.width = d.pct + '%'; seg.style.background = d.color; seg.textContent = d.pct + '%';
+    ageRibbon.appendChild(seg);
+    const lg = document.createElement('div'); lg.className = 'lg';
+    lg.innerHTML = `<span class="sw" style="background:${d.color};"></span> ${d.name}`;
+    ageLegend.appendChild(lg);
+  });
+
+  const placeData = [
+    {name:"Rural village", pct:42, color:'#3F5D42'},
+    {name:"Small town", pct:33, color:'#CC9A3E'},
+    {name:"Regional town near rural area", pct:25, color:'#4A5A66'},
+  ];
+  const placeRibbon = document.getElementById('placeRibbon');
+  const placeLegend = document.getElementById('placeLegend');
+  placeData.forEach(d => {
+    const seg = document.createElement('div');
+    seg.className = 'seg'; seg.style.width = d.pct + '%'; seg.style.background = d.color; seg.textContent = d.pct + '%';
+    placeRibbon.appendChild(seg);
+    const lg = document.createElement('div'); lg.className = 'lg';
+    lg.innerHTML = `<span class="sw" style="background:${d.color};"></span> ${d.name}`;
+    placeLegend.appendChild(lg);
+  });
+
+  const petalData = [
+    {name:"Textile & embroidery", pct:26, color:'#C1613D'},
+    {name:"Woodworking & carpentry", pct:22, color:'#3F5D42'},
+    {name:"Ceramics & pottery", pct:17, color:'#CC9A3E'},
+    {name:"Culinary heritage", pct:15, color:'#6B3F5B'},
+    {name:"Music & oral folklore", pct:12, color:'#4A5A66'},
+    {name:"Natural building & land craft", pct:8, color:'#A34E2F'},
+  ];
+  const petalSvg = document.getElementById('petalSvg');
+  const pcx = 115, pcy = 115, maxLen = 88, minLen = 22;
+  const maxPct = Math.max(...petalData.map(d=>d.pct));
+  const ns = "http://www.w3.org/2000/svg";
+  function el(tag, attrs){
+    const e = document.createElementNS(ns, tag);
+    for(const k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  petalSvg.appendChild(el('circle', {cx:pcx, cy:pcy, r:14, fill:'#F5EDDC', stroke:'#2B2118', 'stroke-width':1.4}));
+  petalData.forEach((d,i) => {
+    const angle = (Math.PI*2*i)/petalData.length - Math.PI/2;
+    const len = minLen + (d.pct/maxPct) * (maxLen-minLen);
+    const x2 = pcx + len*Math.cos(angle);
+    const y2 = pcy + len*Math.sin(angle);
+    petalSvg.appendChild(el('line', {x1:pcx, y1:pcy, x2, y2, stroke:d.color, 'stroke-width':14, 'stroke-linecap':'round', opacity:'0.9'}));
+    const lx = pcx + (len+20)*Math.cos(angle);
+    const ly = pcy + (len+20)*Math.sin(angle);
+    const t = el('text', {x:lx, y:ly, 'text-anchor':'middle', 'font-family':'Courier Prime, monospace', 'font-size':'10', fill:'#2B2118', 'font-weight':'700'});
+    t.textContent = d.pct + '%';
+    petalSvg.appendChild(t);
+  });
+  const petalLegend = document.getElementById('petalLegend');
+  petalData.forEach(d => {
+    const row = document.createElement('div'); row.className = 'lg';
+    row.innerHTML = `<span class="sw" style="background:${d.color};"></span> ${d.name} <span class="val">${d.pct}%</span>`;
+    petalLegend.appendChild(row);
+  });
+
+  const arcSvg = document.getElementById('arcSvg');
+  const acx = 100, acy = 100, ar = 80;
+  const circumference = Math.PI * ar;
+  const value = 0.43;
+  arcSvg.appendChild(el('path', {d:`M ${acx-ar} ${acy} A ${ar} ${ar} 0 0 1 ${acx+ar} ${acy}`, fill:'none', stroke:'#E4D8B8', 'stroke-width':14, 'stroke-linecap':'round'}));
+  arcSvg.appendChild(el('path', {d:`M ${acx-ar} ${acy} A ${ar} ${ar} 0 0 1 ${acx+ar} ${acy}`, fill:'none', stroke:'#C1613D', 'stroke-width':14, 'stroke-linecap':'round', 'stroke-dasharray': `${circumference*value} ${circumference}`}));
+  const t0 = el('text', {x:acx-ar+2, y:acy+18, 'font-family':'Courier Prime, monospace', 'font-size':'9', fill:'#786A52'}); t0.textContent='0'; arcSvg.appendChild(t0);
+  const t10 = el('text', {x:acx+ar-10, y:acy+18, 'font-family':'Courier Prime, monospace', 'font-size':'9', fill:'#786A52'}); t10.textContent='10'; arcSvg.appendChild(t10);
+</script>
+
+</body>
+</html>
